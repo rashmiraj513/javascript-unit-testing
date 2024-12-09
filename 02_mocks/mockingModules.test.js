@@ -1,23 +1,32 @@
-import { describe, vi, it, expect } from 'vitest';
-import { getExchangeRate } from './libs/currency';
-import { getShippingQuote } from './libs/shipping';
+import { vi, it, expect, describe } from 'vitest';
 import {
   getDiscount,
   getPriceInCurrency,
   getShippingInfo,
   isOnline,
   login,
+  renderPage,
   signUp,
   submitOrder,
-} from './mockingModules';
-import { charge } from './libs/payment';
-import { sendEmail } from './libs/email';
-import security from './libs/security';
+} from '../src/mocking';
+import { getExchangeRate } from '../src/libs/currency';
+import { getShippingQuote } from '../src/libs/shipping';
+import { trackPageView } from '../src/libs/analytics';
+import { charge } from '../src/libs/payment';
+import { sendEmail } from '../src/libs/email';
+import security from '../src/libs/security';
 
-// Mocking the module (This line will be executed before the import statement)
-vi.mock('./libs/currency');
-vi.mock('./libs/shipping');
-vi.mock('./libs/payment');
+vi.mock('../src/libs/currency');
+vi.mock('../src/libs/shipping');
+vi.mock('../src/libs/analytics');
+vi.mock('../src/libs/payment');
+vi.mock('../src/libs/email', async (importOriginal) => {
+  const originalModule = await importOriginal();
+  return {
+    ...originalModule,
+    sendEmail: vi.fn(),
+  };
+});
 
 describe('getPriceInCurrency test suite', () => {
   it('should return price in target currency', () => {
@@ -44,6 +53,20 @@ describe('getShippingInfo test suite', () => {
     expect(result).toMatch('$10');
     expect(result).toMatch(/2 days/i);
     expect(result).toMatch(/shipping cost: \$10 \(2 days\)/i);
+  });
+});
+
+describe('renderPage', () => {
+  it('should return correct content', async () => {
+    const result = await renderPage();
+
+    expect(result).toMatch(/content/i);
+  });
+
+  it('should call analytics', async () => {
+    await renderPage();
+
+    expect(trackPageView).toHaveBeenCalledWith('/home');
   });
 });
 
