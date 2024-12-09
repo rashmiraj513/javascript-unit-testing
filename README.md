@@ -15,7 +15,42 @@ A dedicated repository for learning and practicing JavaScript unit testing conce
 
 ## Topics
 
--
+- Unit Testing introduction
+- Types of tests
+- Choosing a testing framework
+- Setting up `vitest`
+- Test-driven development
+- Code coverage
+- Characteristics of Good unit test
+- Good Assertions practice
+- Matcher functions
+- Mocks
+
+## Characteristics of Good Unit Tests
+
+- Maintainable
+  - Have a clear name
+  - Tests a single behavior
+  - Are small (ideally, less than 10 lines)
+  - Have clear variables/constants
+  - Are properly formatted
+- Robust
+  - Resilient to changes in the code
+  - Test the behavior, not the implemenation (Test the what's, not the how's)
+  - Avoid tight assertions
+- Trust-worthy
+  - A test that can be trusted
+  - Code works (Problem in code, not in the test)
+  - No false/positives/negatives
+  - Validate the correct behavior
+  - Test boundary conditions
+  - Are deterministic
+  - Are not dependent on random data or, current date/time or, global state.
+  - Tests should be isolated
+
+## Boundary Testing
+
+- A testing technique where we focus on the edges or boundaries of input values.
 
 ## Credits
 
